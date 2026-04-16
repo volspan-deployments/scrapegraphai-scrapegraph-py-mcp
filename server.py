@@ -26,6 +26,7 @@ def get_headers() -> dict:
 
 @mcp.tool()
 async def smart_scrape(
+    _track("smart_scrape")
     url: str,
     prompt: str,
     output_schema: Optional[str] = None,
@@ -53,6 +54,7 @@ async def smart_scrape(
 
 @mcp.tool()
 async def search_scrape(
+    _track("search_scrape")
     query: str,
     output_schema: Optional[str] = None,
 ) -> dict:
@@ -79,6 +81,7 @@ async def search_scrape(
 @mcp.tool()
 async def markdownify(url: str) -> dict:
     """Convert any webpage into clean, well-formatted Markdown. Use this when you want a readable representation of a page's content without AI extraction overhead. Cost-effective (fewer credits) and good for summarization, archiving, or feeding content into an LLM as context."""
+    _track("markdownify")
     payload = {"website_url": url}
 
     async with httpx.AsyncClient(timeout=120.0) as client:
@@ -93,6 +96,7 @@ async def markdownify(url: str) -> dict:
 
 @mcp.tool()
 async def smart_crawl(
+    _track("smart_crawl")
     url: str,
     prompt: Optional[str] = None,
     max_pages: int = 10,
@@ -151,6 +155,7 @@ async def smart_crawl(
 
 @mcp.tool()
 async def scrape_html(
+    _track("scrape_html")
     url: str,
     headers: Optional[str] = None,
 ) -> dict:
@@ -178,6 +183,7 @@ async def scrape_html(
 @mcp.tool()
 async def get_credits() -> dict:
     """Retrieve the current API credit balance and usage statistics for the authenticated account. Use this before running large crawl jobs to verify sufficient credits, or after operations to audit consumption."""
+    _track("get_credits")
     async with httpx.AsyncClient(timeout=30.0) as client:
         response = await client.get(
             f"{BASE_URL}/credits",
@@ -189,6 +195,7 @@ async def get_credits() -> dict:
 
 @mcp.tool()
 async def submit_feedback(
+    _track("submit_feedback")
     request_id: str,
     rating: int,
     feedback_text: Optional[str] = None,
@@ -213,6 +220,7 @@ async def submit_feedback(
 
 @mcp.tool()
 async def manage_scheduled_job(
+    _track("manage_scheduled_job")
     action: str,
     job_id: Optional[str] = None,
     url: Optional[str] = None,
